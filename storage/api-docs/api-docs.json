@@ -1,0 +1,1072 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Asgard",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost/asgard/public/"
+        },
+        {
+            "url": "http://wsinterno.medicamentos.gob.sv/"
+        }
+    ],
+    "paths": {
+        "/api/hannah/catalogos/todos": {
+            "get": {
+                "tags": [
+                    "Catálogos"
+                ],
+                "summary": "Catálogos",
+                "description": "Catalogos que se usaran en vista crear y editar receta",
+                "operationId": "App\\Http\\Controllers\\Hannah\\CatalogosController::getTodos",
+                "responses": {
+                    "200": {
+                        "description": "Información de catálogos."
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED Las credenciales son obligatorias."
+                    },
+                    "500": {
+                        "description": "Hubo un error al consultar los catálogos."
+                    },
+                    "default": {
+                        "description": "Hubo un error al consultar los catálogos."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/catalogos/tiposusos": {
+            "get": {
+                "tags": [
+                    "Catálogos"
+                ],
+                "summary": "Búsqueda de tipos de uso",
+                "operationId": "App\\Http\\Controllers\\Hannah\\CatalogosController::getTiposUsos",
+                "parameters": [
+                    {
+                        "name": "nombreTipo",
+                        "in": "query",
+                        "description": "Nombre del tipo de uso, dejar en blanco para consultar todos los tipos.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logged In."
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED Las credenciales son obligatorias."
+                    },
+                    "500": {
+                        "description": "Hubo un error al consultar los tipos de uso."
+                    },
+                    "default": {
+                        "description": "Hubo un error al consultar los tipos de uso."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/dashboard/info": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Info Dashboard",
+                "operationId": "App\\Http\\Controllers\\Hannah\\DashboardController::infoDashboard",
+                "responses": {
+                    "200": {
+                        "description": "Dashboard data"
+                    },
+                    "default": {
+                        "description": "Hubo un error al consultar la información del Dashboard."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/dashboard/about": {
+            "get": {
+                "tags": [
+                    "Dashboard"
+                ],
+                "summary": "Retorna la información del médico logueado",
+                "operationId": "App\\Http\\Controllers\\Hannah\\DashboardController::about",
+                "responses": {
+                    "200": {
+                        "description": "Datos del médico"
+                    },
+                    "default": {
+                        "description": "Hubo un error al consultar la información del Médico."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/medico/update": {
+            "post": {
+                "tags": [
+                    "Médico"
+                ],
+                "summary": "Actualizar datos del médico.",
+                "operationId": "App\\Http\\Controllers\\Hannah\\MedicoController::updateInfoMedico",
+                "parameters": [
+                    {
+                        "name": "telefonoF",
+                        "in": "query",
+                        "description": "telefono fijo",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "telefonoC",
+                        "in": "query",
+                        "description": "telefono celular",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Correo electronico del médico",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "fax",
+                        "in": "query",
+                        "description": "fax del médico",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": " Se actualizó la información del médico"
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED Necesita estar logueado en la API."
+                    },
+                    "500": {
+                        "description": "Hubo un error al actualizar la información del médico."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error al actualizar la información del médico."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/pacientes/registrar": {
+            "post": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Registrar un nuevo paciente.",
+                "operationId": "App\\Http\\Controllers\\Hannah\\PacientesController::store",
+                "parameters": [
+                    {
+                        "name": "numeroDocumento",
+                        "in": "query",
+                        "description": "dd-mm-YYYY",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "tipoDocumento",
+                        "in": "query",
+                        "description": "Tipo de documento, si es DUI o pasaporte",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "nombres",
+                        "in": "query",
+                        "description": "Nombre del paciente",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "apellidos",
+                        "in": "query",
+                        "description": "Apellidos del paciente",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sexo",
+                        "in": "query",
+                        "description": "Sexo del paciente",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "fechaNacimiento",
+                        "in": "query",
+                        "description": "Fecha de nacimiento del paciente.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "domicilio",
+                        "in": "query",
+                        "description": "Domicilio del paciente",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "idNacionalidad",
+                        "in": "query",
+                        "description": "Id de la nacionalidad del paciente",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": " Result 1: Se guardó el paciente correctamente. *** Result 2: Problemas al guardar paciente, mensaje descriptivo."
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED Necesita estar logueado en la API."
+                    },
+                    "500": {
+                        "description": "Hubo un error al emitir la receta."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error al emitir la receta."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/pacientes/buscarpaciente": {
+            "get": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Búsqueda de pacientes",
+                "operationId": "App\\Http\\Controllers\\Hannah\\PacientesController::buscarPaciente",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Nombre, apellido o numero de documento de paciente",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logged In."
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED Las credenciales son obligatorias."
+                    },
+                    "500": {
+                        "description": "Hubo un error al consultar el paciente."
+                    },
+                    "default": {
+                        "description": "Hubo un error al consultar el paciente."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/pacientes/buscarmispacientes": {
+            "get": {
+                "tags": [
+                    "Pacientes"
+                ],
+                "summary": "Búsqueda de mis pacientes",
+                "operationId": "App\\Http\\Controllers\\Hannah\\PacientesController::buscarMisPacientes",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Nombre y apellido",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Lista de pacientes encontrados."
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED Las credenciales son obligatorias."
+                    },
+                    "500": {
+                        "description": "Hubo un error al consultar mis pacientes."
+                    },
+                    "default": {
+                        "description": "Hubo un error al consultar mis pacientes."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/productos/buscarproductos": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Búsqueda de productos controlados por nombre comercial o id producto",
+                "operationId": "App\\Http\\Controllers\\Hannah\\ProductosControladosController::buscarProducto",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "Nombre comercial o idProducto",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "401": {
+                        "description": "UNAUTHORIZED Las credenciales son obligatorias."
+                    },
+                    "500": {
+                        "description": "Hubo un error al consultar el producto."
+                    },
+                    "default": {
+                        "description": "Hubo un error al consultar el producto."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/recetas/historial": {
+            "get": {
+                "tags": [
+                    "Recetas"
+                ],
+                "summary": "Historial de recetas",
+                "operationId": "App\\Http\\Controllers\\Hannah\\RecetasController::historial",
+                "responses": {
+                    "200": {
+                        "description": "Historial de recetas con paginado de 10 por página."
+                    },
+                    "default": {
+                        "description": "Hubo un error al consultar el historial de recetas."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/recetas/recetasdisponibles": {
+            "get": {
+                "tags": [
+                    "Recetas"
+                ],
+                "summary": "Recetas disponibles",
+                "operationId": "App\\Http\\Controllers\\Hannah\\RecetasController::recetasDisponibles",
+                "responses": {
+                    "200": {
+                        "description": "Cantidad de recetas disponibles."
+                    },
+                    "default": {
+                        "description": "Cantidad de recetas disponibles."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/recetas/recetasemitidas": {
+            "get": {
+                "tags": [
+                    "Recetas"
+                ],
+                "summary": "Listado de las 10 últimas recetas emitidas",
+                "operationId": "App\\Http\\Controllers\\Hannah\\RecetasController::recetasEmitidas",
+                "responses": {
+                    "200": {
+                        "description": "Listado de las 10 últimas recetas emitidas."
+                    },
+                    "default": {
+                        "description": "Hubo un error al consultar las recetas emitidas."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/recetas/consultarrecetas": {
+            "post": {
+                "tags": [
+                    "Recetas"
+                ],
+                "summary": "Consulta de recetas",
+                "description": "Consulta de recetas por nombre de paciente, numero de documento, nombre de producto, numero de registro y estado receta. Retorna por defecto 10 recetas con paginación",
+                "operationId": "App\\Http\\Controllers\\Hannah\\RecetasController::consultarRecetas",
+                "parameters": [
+                    {
+                        "name": "idReceta",
+                        "in": "query",
+                        "description": "id de la receta que se necesita consultar",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "paciente",
+                        "in": "query",
+                        "description": "Número de documento del paciente.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "nombre",
+                        "in": "query",
+                        "description": "Nombre y apellido del paciente.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "numDocumento",
+                        "in": "query",
+                        "description": "Número de documento",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "nombreProducto",
+                        "in": "query",
+                        "description": "Nombre del producto",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "numRegistro",
+                        "in": "query",
+                        "description": "Número de registro del producto",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "estadoReceta",
+                        "in": "query",
+                        "description": "Estado en numero de la receta",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logged In."
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED Necesita estar logueado en la API."
+                    },
+                    "500": {
+                        "description": "Hubo un error al consultar las recetas."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/recetas/inforeceta": {
+            "get": {
+                "tags": [
+                    "Recetas"
+                ],
+                "summary": "Login de usuarios",
+                "operationId": "App\\Http\\Controllers\\Hannah\\RecetasController::infoReceta",
+                "parameters": [
+                    {
+                        "name": "idReceta",
+                        "in": "query",
+                        "description": "id de la receta que se necesita consultar",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logged In."
+                    },
+                    "400": {
+                        "description": "BAD REQUEST No se pudo iniciar sesión."
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED Necesita estar logueado en la API."
+                    },
+                    "500": {
+                        "description": "Hubo un error al consultar la información del Dashboard."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/recetas/obteneridrecetadisponible": {
+            "get": {
+                "tags": [
+                    "Recetas"
+                ],
+                "summary": "Obtener el id de receta disponible",
+                "operationId": "App\\Http\\Controllers\\Hannah\\RecetasController::obtenerIdRecetaDisponible",
+                "responses": {
+                    "200": {
+                        "description": " Result 1: Validación correcta. *** Result 2:El paciente tiene mas de una receta emitida para el tipo de producto."
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED Necesita estar logueado en la API."
+                    },
+                    "500": {
+                        "description": "Hubo un error al obtener el id de la receta."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error al obtener el id de la recetar."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/recetas/verificarreceta": {
+            "get": {
+                "tags": [
+                    "Recetas"
+                ],
+                "summary": "Validar Paciente y receta",
+                "operationId": "App\\Http\\Controllers\\Hannah\\RecetasController::validarRecetaPaciente",
+                "parameters": [
+                    {
+                        "name": "tipoUso",
+                        "in": "query",
+                        "description": "El tipo de uso de la receta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "idPaciente",
+                        "in": "query",
+                        "description": "id o numero de documento del paciente",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "idProducto",
+                        "in": "query",
+                        "description": "id o numero de registro del producto",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": " Result 1: Validación correcta. *** Result 2:El paciente tiene mas de una receta emitida para el tipo de producto *** Result 3: No se pudo realizr la validación."
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED Necesita estar logueado en la API."
+                    },
+                    "500": {
+                        "description": "Hubo un error al validar."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error al validar."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/recetas/emitir": {
+            "post": {
+                "tags": [
+                    "Recetas"
+                ],
+                "summary": "Emitir una receta",
+                "operationId": "App\\Http\\Controllers\\Hannah\\RecetasController::emitirReceta",
+                "parameters": [
+                    {
+                        "name": "fechaEmision",
+                        "in": "query",
+                        "description": "dd-mm-YYYY",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "idReceta",
+                        "in": "query",
+                        "description": "El último id de receta disponible",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "tipoUso",
+                        "in": "query",
+                        "description": "El tipo de uso de la receta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "idPaciente",
+                        "in": "query",
+                        "description": "id o numero de documento del paciente",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "idProducto",
+                        "in": "query",
+                        "description": "id o numero de registro del producto",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "totalDosis",
+                        "in": "query",
+                        "description": "Total de dosis.",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "dosisReceta",
+                        "in": "query",
+                        "description": "Dosis de la receta",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "totalCiclo",
+                        "in": "query",
+                        "description": "Total por ciclo",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "cicloDosis",
+                        "in": "query",
+                        "description": "Ciclo de dosis (1 o 2)",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "duracionTratamiento",
+                        "in": "query",
+                        "description": "Duración del tratamiento",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "nombreMenor",
+                        "in": "query",
+                        "description": "Nombre del menor",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": " Result 1: Emision correcta. *** Result 2: Emision incorrecta, mensaje descriptivo."
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED Necesita estar logueado en la API."
+                    },
+                    "500": {
+                        "description": "Hubo un error al emitir la receta."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error al emitir la receta."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/recetas/anular": {
+            "post": {
+                "tags": [
+                    "Recetas"
+                ],
+                "summary": "Anular una receta",
+                "operationId": "App\\Http\\Controllers\\Hannah\\RecetasController::anularReceta",
+                "parameters": [
+                    {
+                        "name": "idReceta",
+                        "in": "query",
+                        "description": "El último id de receta disponible",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": " Result 1: Anulación correcta. *** Result 2: Anulación incorrecta, mensaje descriptivo."
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED Necesita estar logueado en la API."
+                    },
+                    "500": {
+                        "description": "Hubo un error al anular la receta."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error al anular la receta."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/talonarios/guardar": {
+            "post": {
+                "tags": [
+                    "Talonarios"
+                ],
+                "summary": "Ingresar solicitud de talonario",
+                "operationId": "App\\Http\\Controllers\\Hannah\\TalonariosController::storeTalonario",
+                "parameters": [
+                    {
+                        "name": "numTalonario",
+                        "in": "query",
+                        "description": "Cantidad de talonarios",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "mandamiento",
+                        "in": "query",
+                        "description": "Número de mandamiento",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "justificacion",
+                        "in": "query",
+                        "description": "Comentario o justificación",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": " Result 1: Se guardó la solicitud de talonario."
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED Necesita estar logueado en la API."
+                    },
+                    "500": {
+                        "description": "Hubo un error al guardar el talonario."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error al guardar el talonario."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/hannah/talonarios/solicitudestalonarios": {
+            "post": {
+                "tags": [
+                    "Talonarios"
+                ],
+                "summary": "Listado de Solicitudes de talonarios",
+                "description": "Histórico de solicitudes de talonarios.",
+                "operationId": "App\\Http\\Controllers\\Hannah\\TalonariosController::solicitudesTalonarios",
+                "parameters": [
+                    {
+                        "name": "numeroMandamiento",
+                        "in": "query",
+                        "description": "Numero de mandamiento del talonario",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "idSolicitud",
+                        "in": "query",
+                        "description": "ID de solicitud del talonario",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numero de página actual del paginador",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Resultado con paginador."
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED Necesita estar logueado en la API."
+                    },
+                    "500": {
+                        "description": "Hubo un error al consultar las solicitudes de talonarios."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Login de usuarios",
+                "operationId": "App\\Http\\Controllers\\JWT\\AuthenticationJWTController::login",
+                "parameters": [
+                    {
+                        "name": "tk",
+                        "in": "query",
+                        "description": "jwt con credenciales - eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuaXQiOiIwMjEwLTA0MDI2OS0xMDQtNCJ9.Ixea2taxPCf6KawIQ2Kqop1olf4cLDFemyc8m1cUS28",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Logged In."
+                    },
+                    "400": {
+                        "description": "BAD REQUEST No se pudo iniciar sesión."
+                    },
+                    "401": {
+                        "description": "UNAUTHORIZED Las credenciales son obligatorias."
+                    },
+                    "500": {
+                        "description": "Hubo un error al consultar la información del Dashboard."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error."
+                    }
+                }
+            }
+        },
+        "/api/saludo": {
+            "get": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Saludo de usuarios",
+                "operationId": "App\\Http\\Controllers\\JWT\\AuthenticationJWTController::saludo",
+                "responses": {
+                    "200": {
+                        "description": "Logged In."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/refreshauthtk": {
+            "get": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Endpoint para hacer un refresh al token.",
+                "operationId": "App\\Http\\Controllers\\JWT\\AuthenticationJWTController::refreshAuthTk",
+                "responses": {
+                    "200": {
+                        "description": "Se retorna el nuevo token."
+                    },
+                    "default": {
+                        "description": "Ha ocurrido un error."
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearer": {
+                "type": "apiKey",
+                "description": "JWT",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
+}
